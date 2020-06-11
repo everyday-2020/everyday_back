@@ -5,8 +5,6 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :nickname
       t.string :pw_digest
       t.string :profile_pic
-      t.Date :created_at
-      t.Date :modified_at
 
       t.timestamps
     end
