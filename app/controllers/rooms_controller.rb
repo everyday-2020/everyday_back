@@ -1,6 +1,8 @@
 require 'digest'
 
 class RoomsController < ApplicationController
+  before_action :auth
+  
   def index
     user = User.find(session[:user_id])
     render json: user.rooms
@@ -15,5 +17,13 @@ class RoomsController < ApplicationController
     @room.users << user
     @room.save
     render @room
+  end
+
+  private
+
+  def auth
+    @user = User.find(session[:user_id])
+  rescue ActiveRecord::RecordNotFound
+    render status: :forbidden unless @user
   end
 end
