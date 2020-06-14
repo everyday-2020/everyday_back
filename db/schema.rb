@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(version: 2020_06_14_052729) do
     t.integer "length"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "room_id", null: false
+    t.integer "user_id", null: false
+    t.index ["room_id"], name: "index_videos_on_room_id"
+    t.index ["user_id"], name: "index_videos_on_user_id"
   end
 
+  add_foreign_key "videos", "rooms"
+  add_foreign_key "videos", "users"
 end
