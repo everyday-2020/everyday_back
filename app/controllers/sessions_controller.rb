@@ -1,6 +1,6 @@
-class SessionController < ApplicationController
+class SessionsController < ApplicationController
   def create
-    @user = User.find_by(name: params[:user][:username])
+    @user = User.find_by(username: params[:user][:username])
     if @user&.authenticate(params[:user][:password])
       session[:user_id] = @user.id
       render status: :ok
