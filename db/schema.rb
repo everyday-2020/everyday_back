@@ -10,16 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_073545) do
+ActiveRecord::Schema.define(version: 2020_06_14_075454) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "title", null: false
     t.string "description"
     t.date "complete_at", null: false
-    t.string "invited_code", null: false
     t.string "category"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "invite_code", null: false
+    t.index ["invite_code"], name: "index_rooms_on_invite_code", unique: true
   end
 
   create_table "rooms_users", id: false, force: :cascade do |t|
