@@ -44,3 +44,5 @@ gem 'bcrypt', '~> 3.1'
 
 gem 'rubocop', '~> 0.85.1', require: false
 gem 'rubocop-rails', '~> 2.6', require: false
+
+gem "rack-cors", "~> 1.1"
