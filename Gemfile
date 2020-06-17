@@ -49,3 +49,5 @@ gem 'rubocop-rails', '~> 2.6', require: false
 gem 'carrierwave'
 gem 'streamio-ffmpeg'
 gem 'carrierwave-video-thumbnailer'
+
+gem "rack-cors", "~> 1.1"
