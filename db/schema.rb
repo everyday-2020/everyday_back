@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_075454) do
+ActiveRecord::Schema.define(version: 2020_06_16_162440) do
 
   create_table "rooms", force: :cascade do |t|
     t.string "title", null: false
@@ -42,10 +42,12 @@ ActiveRecord::Schema.define(version: 2020_06_14_075454) do
     t.integer "clicks"
     t.string "file_path"
     t.integer "length"
+    t.string "invite_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "room_id", null: false
     t.integer "user_id", null: false
+    t.string "clip"
     t.index ["room_id"], name: "index_videos_on_room_id"
     t.index ["user_id"], name: "index_videos_on_user_id"
   end

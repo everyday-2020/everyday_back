@@ -8,4 +8,8 @@ Rails.application.routes.draw do
   post '/rooms', to: 'rooms#create'
   get '/rooms/:invite_code', to: 'rooms#show'
   patch '/rooms/:invite_code', to: 'rooms#join'
+
+  post '/videos/:invite_code', to: 'videos#create'
+  get '/video/:id', to: 'videos#show'
+  get '/videos/:invite_code', to: 'videos#index'
 end
