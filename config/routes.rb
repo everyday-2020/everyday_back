@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
   get 'user', to: 'users#show'
   post 'login', to: 'sessions#create'
+  post 'logout', to: 'sessions#destroy'
 
   get '/rooms', to: 'rooms#index'
   post '/rooms', to: 'rooms#create'
