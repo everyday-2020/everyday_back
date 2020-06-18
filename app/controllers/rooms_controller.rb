@@ -40,7 +40,9 @@ class RoomsController < ApplicationController
       render status: :not_found
       return
     end
-    @room.users << @user
+    if not @room.users.exists? @user.id
+      @room.users << @user
+    end
     render status: :ok
   end
 
