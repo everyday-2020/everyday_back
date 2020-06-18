@@ -71,7 +71,7 @@ class VideosController < ApplicationController
             return
         end
         if @room and !@room.users.exists?(@user.id)
-            render status: :forbidden
+            render status: :forbidden, json: @room
             return
         end
     end
