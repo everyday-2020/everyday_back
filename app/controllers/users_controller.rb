@@ -20,6 +20,6 @@ class UsersController < ApplicationController
   def auth
     @user = User.find(session[:user_id])
   rescue ActiveRecord::RecordNotFound
-    render status: :forbidden
+    render status: :unauthorized
   end
 end

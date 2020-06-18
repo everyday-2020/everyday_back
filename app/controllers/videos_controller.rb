@@ -8,12 +8,6 @@ class VideosController < ApplicationController
         @video.clip = params[:clip]
         @video.invite_code = params[:invite_code]
         puts(@video.invite_code)
-        begin
-            @room = Room.find_by! invite_code: @video.invite_code
-        rescue ActiveRecord::RecordNotFound
-            render status: :bad_request
-            return
-        end
 
         @video.room_id = @room.id
         @video.user_id = @user.id
@@ -52,8 +46,6 @@ class VideosController < ApplicationController
     # returns list of videos in a room
     def index
         begin
-        @room = Room.find_by! invite_code: params[:invite_code]
-
         rescue ActiveRecord::RecordNotFound
             render status: :not_found
             return
@@ -64,9 +56,22 @@ class VideosController < ApplicationController
 
 
     def auth
-        @user = User.find(session[:user_id])
-    rescue ActiveRecord::RecordNotFound
-        render status: :forbidden
+        begin
+            @room = Room.find_by! invite_code: params[:invite_code]
+        rescue ActiveRecord::RecordNotFound
+            render status: :bad_request
+            return
+        end
+        begin
+            @user = User.find(session[:user_id])
+        rescue ActiveRecord::RecordNotFound
+            render status: :unauthorized
+            return
+        end
+        if !@room.users.exists?(@user.id)
+            render status: :forbidden
+            return
+        end
     end
 
     private

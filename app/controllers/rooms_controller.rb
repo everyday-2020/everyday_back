@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
       return
     end
     if !@room.users.exists?(@user.id)
-      render status: :forbidden
+      render status: :forbidden, json: @room
     else
       render json: @room
     end
@@ -49,6 +49,6 @@ class RoomsController < ApplicationController
   def auth
     @user = User.find(session[:user_id])
   rescue ActiveRecord::RecordNotFound
-    render status: :forbidden
+    render status: :unauthorized
   end
 end
