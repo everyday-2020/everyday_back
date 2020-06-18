@@ -51,16 +51,21 @@ class VideosController < ApplicationController
             return
         end
 
-        render json: @room.videos.where(:created_at => params[:date_start]..params[:date_end])
+        render json: @room.videos
+            .joins( :user )
+            .where(:created_at => params[:date_start]..params[:date_end] )
+            .select('videos.created_at as created_at, videos.id as id, clicks, clip, length, users.nickname as user_nickname')
     end
 
 
     def auth
-        begin
-            @room = Room.find_by! invite_code: params[:invite_code]
-        rescue ActiveRecord::RecordNotFound
-            render status: :bad_request
-            return
+        if params[:invite_code]
+            begin
+                @room = Room.find_by! invite_code: params[:invite_code]
+            rescue ActiveRecord::RecordNotFound
+                render status: :bad_request
+                return
+            end
         end
         begin
             @user = User.find(session[:user_id])
@@ -68,7 +73,7 @@ class VideosController < ApplicationController
             render status: :unauthorized
             return
         end
-        if !@room.users.exists?(@user.id)
+        if @room and !@room.users.exists?(@user.id)
             render status: :forbidden
             return
         end
