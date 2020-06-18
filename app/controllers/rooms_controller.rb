@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
       return
     end
     if !@room.users.exists?(@user.id)
-      render status: :forbidden
+      render status: :forbidden, json: @room
     else
       render json: @room
     end
@@ -23,7 +23,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.new(params.require('room').permit(:title, :description, :complete_at, :category))
-    @room.invite_code = Digest::SHA256.base64digest(@user.username + params[:room][:title].to_s + Time.zone.now.ctime)[0..5]
+    @room.invite_code = Digest::SHA256.base64digest(@user.username + params[:room][:title].to_s + Time.zone.now.ctime)[0..5].gsub!('+', '-').gsub!('/', '*')
     @room.users << @user
     @room.save
     if @room.valid?
@@ -40,7 +40,9 @@ class RoomsController < ApplicationController
       render status: :not_found
       return
     end
-    @room.users << @user
+    if not @room.users.exists? @user.id
+      @room.users << @user
+    end
     render status: :ok
   end
 
@@ -49,6 +51,6 @@ class RoomsController < ApplicationController
   def auth
     @user = User.find(session[:user_id])
   rescue ActiveRecord::RecordNotFound
-    render status: :forbidden
+    render status: :unauthorized
   end
 end
