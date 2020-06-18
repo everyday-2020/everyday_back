@@ -23,7 +23,7 @@ class RoomsController < ApplicationController
 
   def create
     @room = Room.new(params.require('room').permit(:title, :description, :complete_at, :category))
-    @room.invite_code = Digest::SHA256.base64digest(@user.username + params[:room][:title].to_s + Time.zone.now.ctime)[0..5]
+    @room.invite_code = Digest::SHA256.base64digest(@user.username + params[:room][:title].to_s + Time.zone.now.ctime)[0..5].gsub!('+', '-').gsub!('/', '*')
     @room.users << @user
     @room.save
     if @room.valid?
