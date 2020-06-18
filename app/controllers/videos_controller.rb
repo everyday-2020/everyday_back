@@ -13,14 +13,11 @@ class VideosController < ApplicationController
         @video.user_id = @user.id
         
         @video.clicks = 0
-        
-        @video.file_path = @video.clip.current_path
-        @streamio_video = FFMPEG::Movie.new(@video.clip.current_path)
-        
-        # save length in milliseconds
-        @video.length = @streamio_video.duration * 1000
+        @video.length = 0
+        @video.file_path = ""
         
         @video.save!
+
 
         if @video.valid?
             render status: :ok
