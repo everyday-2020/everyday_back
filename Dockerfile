@@ -1,14 +1,15 @@
-FROM ruby:2.7.1
+FROM ruby:2.6.3
 
 WORKDIR /opt/app
 
 RUN apt-get update && \
-    apt-get install -y sqlite3 libsqlite3-dev ffmpeg ffmpegthumbnailer
+    apt-get install -y ffmpeg ffmpegthumbnailer
 
 COPY . /opt/app
 
 RUN gem install bundler -v '2.1.4' && \
-    bundle install
+    bundle install && \
+    rails db:setup
 
 #ENV RAILS_ENV production
 
